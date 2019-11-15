@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block title %}iPhone_11_max{% endblock %}
+
+{% block content %}
+    <h2>iPhone 11 max</h2>
+    <div>
+        <p>{{ product[2] }}</p>
+        <p>Price {{ product[3] }} Kr</p>
+    </div>
+
+    <div>
+        <p>Comments:</p>
+        <p>
+            {% for item in coms %}
+                <p>{{ item[1] }} wrote: {{ item[2] }}</p>
+            {% endfor %}
+        </p>
+    </div>
+
+    <div>
+        <form action="{{ url_for('iPhone_11_max') }}" method="post" autocomplete="off"> #Submit knappen för att skriva kommentar
+            <label for="comment">
+                <i class="fas fa-user"></i>
+            </label>
+            <input type="text" name="comment" placeholder="comment" id="comment" required>
+            <input type="submit" value="Submit comment">
+        </form>
+    </div>
+{% endblock %}
