@@ -1,0 +1,26 @@
+{% extends 'adminLayout.html' %}
+
+{% block title %}Add Product (anushemsida){% endblock %}
+
+{% block content %}
+    <h2>Anus Product</h2>
+    <div>
+        <form action="{{ url_for('adminAddProducts') }}" method="post" autocomplete="off">
+            <label for="productName">
+                <i class="fas fa-user"></i>
+            </label>
+            <input type="text" name="productName" placeholder="productName" id="productName" required>
+
+            <label for="description">
+                <i class="fas fa-user"></i>
+            </label>
+            <input type="text" name="description" placeholder="description" id="description" required>
+
+            <label for="price">
+                <i class="fas fa-user"></i>
+            </label>
+            <input type="text" name="price" placeholder="price" id="price" required>
+            <input type="submit" value="Add product">
+    </div>
+{% endblock %}
+</html>
