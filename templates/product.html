@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% block title %}Product{% endblock %}
+
+{% block content %}
+    <h2>{{ product[1] }}</h2>
+    <div>
+        <p>{{ product[2] }}</p>
+        <p>Price {{ product[3] }} Kr</p>
+        <form method="post" action="{{ url_for('addToBasket', productID=product[0]) }}">
+            <input type="submit" name="add_to_chart" value="Add to chart"/>
+        </form>
+    </div>
+    <img src="{{ url_for('static', filename=product[4] )}}" class="image">
+
+    <div class="stars">
+
+        <!--<fieldset class="rating">-->
+        <form method="POST" action="{{ url_for('product', productID=product[0]) }}">
+            <h3>User rating</h3>
+
+            <input type="radio" id="5star" name="rating" value="5" /><label class = "full" for="5star" title="5 stars"></label>
+
+            <input type="radio" id="4star" name="rating" value="4" /><label class = "full" for="4star" title="4 stars"></label>
+
+            <input type="radio" id="3star" name="rating" value="3" /><label class = "full" for="3star" title="3 stars"></label>
+
+            <input type="radio" id="2star" name="rating" value="2" /><label class = "full" for="2star" title="2 stars"></label>
+
+            <input type="radio" id="1star" name="rating" value="1" /><label class = "full" for="1star" title="1 star"></label>
+
+            <input type="submit" value="Submit rating">
+        </form>
+        <!--</fieldset>-->
+
+    </div>
+    <div>
+        <p>Comments:</p>
+        <p>
+            {% for item in coms %}
+                <p>{{ item[2] }} wrote: {{ item[3] }}</p>
+            {% endfor %}
+        </p>
+        <form action="{{ url_for('product', productID=product[0]) }}" method="post" autocomplete="off">
+            <label for="comment">
+                <i class="fas fa-user"></i>
+            </label>
+            <input type="text" name="comment" placeholder="comment" id="comment" required>
+            <input type="submit" value="Submit comment">
+        </form>
+
+
+
+    </div>
+
+{% endblock %}
