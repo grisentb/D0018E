@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+
+{% block title %}Basket{% endblock %}
+
+{% block content %}
+    <h2>Basket Checkout</h2>
+    <p>Please continue , {{ username }}!</p>
+
+    <h2>Products in chart: </h2>
+    <table>
+    <h4>{{ msg }}</h4>
+        {% for item in products %}
+            <tr>
+                <p>
+                    <a href="{{ url_for('product', productID=item[0]) }}"><i class="product"></i>{{ item[1] }}
+                    </a>
+                    Price: {{ item[3] }} kr <br/>
+                <form method="post" action="{{ url_for('addToBasket', productID=item[0]) }}">
+                    <input type="submit" name="add_to_chart" value="Add to cart"/>
+                </form>
+                <form method="post" action="{{ url_for('decreaseFromBasket', productID=item[0]) }}">
+                    <input type="submit" name="remove_from_chart" value="Decrease from cart"/>
+                </form>
+                {% for q in quantity %}
+                    {% if item[0] == q[2] %}
+                        Quantity: {{q[4]}} pieces in basket
+                    {% endif %}
+                {% endfor %}
+                <br/>
+
+
+                </p>
+            </tr>
+        {% endfor %}
+    </table>
+    <form method="POST" action="{{ url_for('purchase')}}">
+        <input type="submit" name="buyout" value="Buyout"/>
+    </form>
+
+{% endblock %}
