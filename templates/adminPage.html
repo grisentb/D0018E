@@ -1,0 +1,20 @@
+{%  extends 'adminLayout.html' %}
+
+{% block title %}AdminPage{% endblock %}
+
+{% block content %}
+<h2>Admin Page</h2>
+<p>Welcome back, {{ username }}!</p>
+    <h2>Products:</h2>
+    <table>
+            {% for item in products %}
+                <tr>
+                    <p>
+                       ID: {{ item[0] }} Productname: {{ item[1] }} <br/>
+                        Price: {{ item[3] }} kr
+                        <input type="button" value="Delete Product"></input>
+                    </p>
+                </tr>
+            {% endfor %}
+    </table>
+{% endblock %}
