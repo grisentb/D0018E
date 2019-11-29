@@ -1,0 +1,25 @@
+{% extends 'adminLayout.html' %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+    <h2>Profile Page</h2>
+    <div>
+        <p>Placed orders: </p>
+        <table>
+        {% for item in transactions %}
+            <tr>
+                <p>
+                    TransactionID: {{ item[0][0] }} <br/>
+                    MemberID: {{ item[0][1] }} <br/>
+                    Status: {{ item[0][2] }} <br/>
+                    Date: {{ item[0][3] }} <br/>
+                    Products: <br/>
+                    {% for i in range(0, item|length) %}
+                       {{ item[1][i|int] }}<br/>
+                    {% endfor %}
+                </p>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+{% endblock %}
