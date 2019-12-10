@@ -3,18 +3,35 @@
 {% block title %}AdminPage{% endblock %}
 
 {% block content %}
-<h2>Admin Page</h2>
-<p>Welcome back, {{ username }}!</p>
+    <h2>Admin Page</h2>
+    <p>Welcome back, {{ username }}!</p>
     <h2>Products:</h2>
     <table>
-            {% for item in products %}
-                <tr>
-                    <p>
-                       ID: {{ item[0] }} Productname: {{ item[1] }} <br/>
+        {% for item in products %}
+            <tr>
+                <p>
+                    ID: {{ item[0] }} Productname: {{ item[1] }} <br/>
+
+                    {% if item[9] == 1 %}
+                        Price: {{ item[8] }} kr
+                    {% else %}
                         Price: {{ item[3] }} kr
-                        <input type="button" value="Delete Product"></input>
-                    </p>
-                </tr>
-            {% endfor %}
+                    {% endif %}
+                    Availability: {{ item[7] }}
+                    <form method="post" action="{{ url_for('adminToggleSale', productID=item[0]) }}">
+                        <input type="submit" name="toggle_sales" value="Toggle Sale"/>
+                    </form>
+                    <form method="post" action="{{ url_for('adminRemoveProduct', productID=item[0]) }}">
+                        <input type="submit" name="toggle_availability" value="Toggle availability"/>
+                    </form>
+                     <form action="{{ url_for('updateSalePrice', productID=item[0]) }}" method="post" autocomplete="off">
+                        <input type="text" name="salePrice" placeholder="salePrice" id="salePrice" required>
+                        <input type="submit" value="Update Sales Price">
+                    </form>
+                    
+
+                </p>
+            </tr>
+        {% endfor %}
     </table>
 {% endblock %}
