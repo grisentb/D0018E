@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
 import re
+import hashlib
 
 app = Flask(__name__)
 
@@ -14,8 +15,12 @@ app.config['MYSQL_DB'] = 'shopDB'
 mysql = MySQL(app)
 
 def loginAdmin(username, password):
+    # hash pwd with md5
+    hashPwd = hashlib.sha256(password.encode())
+    hash = hashPwd.hexdigest()
     cur = mysql.connection.cursor()
-    cur.execute('SELECT * FROM adminAccounts WHERE adminUsername = %s AND password = %s', (username, password))
+    cur.execute('SELECT * FROM adminAccounts WHERE adminUsername = %s AND password = '
+                '%s', (username, hash))
     account = cur.fetchone()
     cur.close()
     return account
@@ -38,14 +43,15 @@ def adminOrders():
     transactions = cur.fetchall()
     for item in transactions:
         temp = []
-        cur.execute('SELECT products.productName, products.price, transactionOrders.quantity FROM transactionOrders, products WHERE transactionOrders.productID = products.productID and transactionOrders.oldBasketID=%s', (item[0],))
+        cur.execute('SELECT products.productName, products.price, products.available, transactionOrders.quantity FROM transactionOrders, products WHERE transactionOrders.productID = products.productID and transactionOrders.oldBasketID=%s', (item[0],))
         itemData = list(cur.fetchall())
         itemData = [list(itemD) for itemD in itemData]
-        print(str(itemData))
+        #print(str(itemData))
         for itemD in itemData:
-            print(str(itemD))
+            #print(str(itemD))
             itemD[1] = str(itemD[1]) + " KR"
-            itemD[2] = "Bought " + str(itemD[2]) + " Pieces"
+            itemD[2] = "Availability: " + str(itemD[2])
+            itemD[3] = "Bought " + str(itemD[3]) + " Pieces"
         temp.append(item)
         temp.append(itemData)
         data.append(temp)
